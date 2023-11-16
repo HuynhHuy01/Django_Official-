@@ -1,0 +1,39 @@
+<div id="colorlib-page">
+<a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
+<aside id="colorlib-aside" role="complementary" class="border js-fullheight">
+  <h1 id="colorlib-logo"><a href="{% url 'book:home' %}">Trạm Đọc</a></h1>
+  <nav id="colorlib-main-menu" role="navigation">
+    <ul>
+      <li class="colorlib-active"><a href="{% url 'book:home' %}">Home</a></li>
+      <li><a href="{% url 'book:books' %}">Books</a></li>
+      <li><a href="#a">About</a></li>
+      <li><a href="#l">Services</a></li>
+      {% if request.user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        <li><a href="{% url 'book:users-profile' %}">Profile</a></li>
+      {% else %}
+        <li><a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+      {% if not request.user.is_authenticated %}
+        <li><a href="{% url 'signup' %}">Signup</a></li>
+      {% endif %}
+      {% if request.user.is_organised %}
+      <li><a href="{% url 'book:create_user' %}">Create User</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  <div class="colorlib-footer">
+    {% if request.user.is_authenticated %}
+      <h2 class="btn btn-primary">{{ request.user.username }}</h2>
+    {% endif %}
+
+    <ul>
+      <li><a href="#"><i class="icon-facebook2"></i></a></li>
+      <li><a href="#"><i class="icon-twitter2"></i></a></li>
+      <li><a href="#"><i class="icon-instagram"></i></a></li>
+      <li><a href="#" target="_blank"><i class="fa-brands fa-github"></i></a></li>
+    </ul>
+  </div>
+</aside>
+</div>

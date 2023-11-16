@@ -1,0 +1,383 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+<!--<link rel="stylesheet" href="{% static 'css/checkout.css' %}">-->
+{% block content %}
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&locale=en_US"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=EUR">
+</script>
+
+<div class="row" style = "position:absolute;margin-top:3em;left: 52%;
+top: 50%;transform: translate(-50%, -50%);width: 60%;">
+  <div class="col-lg-6">
+    <div class="box-element" id="form-wrapper">
+      <form id="form" method = "POST" action = '/'>
+        {% csrf_token %}
+        {{ form.as_p }} 
+        <div id="user-info" style = "margin-top: 6em;">
+          <div class="form-field" for = "name">
+            <input required class="form-control" type="text" name="name" value="{{usermodel.username}}">
+          </div>
+          <div class="form-field">
+            <input required class="form-control" type="email" name="email" value ="{{usermodel.email}}">
+          </div>
+        </div>
+        
+        <div id="shipping-info">
+          <hr>
+          <p>Shipping Information:</p>
+          <hr>
+          <div class="form-field" for = "address">
+            <input required class="form-control" type="text" name="address" placeholder="Address..">
+          </div>
+          <div class="form-field">
+            <input required class="form-control" type="text" name="city" placeholder="City..">
+          </div>
+          <div class="form-field">
+            <input required class="form-control" type="text" name="state" placeholder="State..">
+          </div>
+          <div class="form-field">
+            <input required class="form-control" type="text" name="zipcode" placeholder="Zipcode...">
+          </div>
+          {% comment %} <div class="form-field">
+            <input required class="form-control" type="text" name="date_added" placeholder="Date_added">
+          </div> {% endcomment %}
+        </div>
+        <hr>
+        <input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+      </form>
+    </div>
+
+    <br>
+    <div class="box-element hidden" id="payment-info">
+      <small>Paypal Options</small>
+      {% comment %} <button id = 'make-payment'>Make Payment </button> {% endcomment %}
+      <div id = 'paypal-button-container'>Payment</div> 
+    </div>
+    
+  </div>
+
+  <div class="col-lg-6">
+    <div class="box-element">
+      <a  class="btn btn-outline-dark" href="{% url 'book:cart' %}">&#x2190;Back to Cart</a>
+      <hr>
+      <h3>Order Summary</h3>
+      <hr>
+      {%for item in items %}
+      <div class="cart-row"  style="display:flex;line-height: 2em;">
+        <div class = 'cart-image' style = "padding: 0px 2em 0 0;">
+        <div style="flex:2"><img class="row-image" style = "width:6em;height:80px"src="{{item.book.ImageUrl}}"></div>
+        </div>
+        <div class = 'cart-section'>
+        <div style="flex:2"><p>{{item.book.book_name}}</p></div>
+        <div style="flex:1"><p>Số lượng: {{item.quantity}}</p></div>
+        <div style="flex:1"><p>Giá : {{item.get_totalprice}}</p></div>
+        </div>
+
+      </div>
+      {%endfor %}
+      <h5>Items: {{order.get_item}}</h5>
+      <h5>Total: {{order.get_total}}</h5>
+    </div>
+  </div>
+</div>
+
+{% comment %} <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD&disable-funding-credit"></script> {% endcomment %}
+{% comment %} <script src="{% static 'js/checkout.js' %}"></script> {% endcomment %}
+
+
+
+<script>
+   var total = '{{order.get_total}}'
+
+paypal.Buttons({
+
+  style:{
+    color : 'blue',
+    shape : 'rect'
+  }
+
+  createOrder: function(data,actions){
+    return actions.order.create({
+       purchase_units: [{
+         amount: {
+          value : parseFloat(total).toFixed(2)
+         }
+       }]
+    });
+  },
+
+  onApprove: function(data,actions){
+    return actions.order.capture().then(function(details){
+      alert("Transaction completed by" + details.payer.name.given_name + '!');
+      SubmitFormData()
+
+    }); 
+  }
+
+ }).render('#paypal-button-container');
+
+</script>
+
+ <script type = "text/javascript">
+  var user = '{{request.user}}'
+  var shipping = '{{order.shipping}}'
+  var total = '{{order.get_total}}'
+
+
+  if(shipping == 'False')
+  {
+    document.getElementById('shipping-info').innerHTML = ''
+  }
+
+  if(user != 'AnonymousUser')
+  {
+     document.getElementById('user-info').innerHTML = ''
+  }
+
+  if(shipping == 'False' && user != 'AnonymousUser')
+  {
+    document.getElementById('form-wrapper').classList.add('hidden')
+    document.getElementById('payment-info').classList.remove('hidden')
+  }
+
+  var form = document.getElementById('form')
+
+  {% comment %} csrftoken = form.getElementsByTagName('input')[0].value
+  console.log('New Token:' form.getElementsByTagName('input')[0].value) {% endcomment %}
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault()
+    console.log('Form Submitted ...')
+    document.getElementById('form-button').classList.add('hidden')
+    document.getElementById('payment-info').classList.remove('hidden')
+  })
+
+  {% comment %} document.getElementById('make-payment').addEventListener('click',function(e){
+       SubmitFormData()
+  }) {% endcomment %}
+
+
+  function SubmitFormData()
+  {
+    console.log('Payment button clicked')
+
+    var userFormData = 
+    {
+        'name' : null,
+        'email' : null,
+        'total' : total,
+    }
+
+    var shippingInfo = 
+    {
+       'address' : null,
+       'city' : null,
+       'state' : null,
+       'zipcode' : null
+    }
+
+    if(shipping != 'False')
+    {
+       shippingInfo.address = form.address.value
+       shippingInfo.city = form.city.value
+       shippingInfo.state = form.state.value
+       shippingInfo.zipcode = form.zipcode.value  
+    }
+
+    if ( user == 'AnonymousUser'){
+      userFormData.name = form.name.value
+      userFormData.email = form.email.value 
+    } 
+
+    var url = '/process_order/'
+    fetch(url, {
+        method: 'POST',
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify({ 'form': userFormData, 'shipping': shippingInfo })
+    })
+
+    // return response.json();
+
+    .then((response) =>{
+        if (!response.ok) {
+            // error processing
+            throw 'Error';
+        }
+        return response.json()
+    })
+
+    .then((data) => {
+        console.log('Success: ', data)
+        alert('Transaction complete')
+        window.location.href = "{% url 'book:books' %}"
+        
+    })
+
+    .catch(error => console.log('Failed:', error));
+  }
+</script> 
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="container mt-5 px-5">-->
+<!--  <div class="row mx-auto" style="position: relative; width: 80%;margin-left: 16em; top: 10em;">-->
+<!--    <div class="col-md-8">-->
+<!--      <div class="card p-3">-->
+<!--        <h6 class="text-uppercase">Payment details</h6>-->
+<!--        <div class="inputbox mt-3">-->
+<!--          <input-->
+<!--            type="text"-->
+<!--            name="name"-->
+<!--            class="form-control"-->
+<!--            required="required"-->
+<!--          />-->
+<!--          <span>Name on card</span>-->
+<!--        </div>-->
+
+<!--        <div class="row">-->
+<!--          <div class="col-md-6">-->
+<!--            <div class="inputbox mt-3 mr-2">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                name="name"-->
+<!--                class="form-control"-->
+<!--                required="required"-->
+<!--              />-->
+<!--              <i class="fa fa-credit-card"></i> <span>Card Number</span>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="col-md-6">-->
+<!--            <div class="d-flex flex-row">-->
+<!--              <div class="inputbox mt-3 mr-2">-->
+<!--                <input-->
+<!--                  type="text"-->
+<!--                  name="name"-->
+<!--                  class="form-control"-->
+<!--                  required="required"-->
+<!--                />-->
+<!--                <span>Expiry</span>-->
+<!--              </div>-->
+
+<!--              <div class="inputbox mt-3 mr-2">-->
+<!--                <input-->
+<!--                  type="text"-->
+<!--                  name="name"-->
+<!--                  class="form-control"-->
+<!--                  required="required"-->
+<!--                />-->
+<!--                <span>CVV</span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="mt-4 mb-4">-->
+<!--          <h6 class="text-uppercase">Billing Address</h6>-->
+
+<!--          <div class="row mt-3">-->
+<!--            <div class="col-md-6">-->
+<!--              <div class="inputbox mt-3 mr-2">-->
+<!--                <input-->
+<!--                  type="text"-->
+<!--                  name="name"-->
+<!--                  class="form-control"-->
+<!--                  required="required"-->
+<!--                />-->
+<!--                <span>Street Address</span>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="col-md-6">-->
+<!--              <div class="inputbox mt-3 mr-2">-->
+<!--                <input-->
+<!--                  type="text"-->
+<!--                  name="name"-->
+<!--                  class="form-control"-->
+<!--                  required="required"-->
+<!--                />-->
+<!--                <span>City</span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="row mt-2">-->
+<!--            <div class="col-md-6">-->
+<!--              <div class="inputbox mt-3 mr-2">-->
+<!--                <input-->
+<!--                  type="text"-->
+<!--                  name="name"-->
+<!--                  class="form-control"-->
+<!--                  required="required"-->
+<!--                />-->
+<!--                <span>State/Province</span>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="col-md-6">-->
+<!--              <div class="inputbox mt-3 mr-2">-->
+<!--                <input-->
+<!--                  type="text"-->
+<!--                  name="name"-->
+<!--                  class="form-control"-->
+<!--                  required="required"-->
+<!--                />-->
+<!--                <span>Zip code</span>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="mt-4 mb-4 d-flex justify-content-between" style="width: 650px; position: relative;">-->
+<!--        <a href="{% url 'book:shop_details' checkout.pk %}">Back</a>-->
+
+<!--        <button class="btn btn-success px-3" style="position: absolute; right: 0;">Pay {{ checkout.book_cost }} VND</button>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--&lt;!&ndash;    <div class="col-md-4" style="transform: translateY(100px);">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div class="card card-blue p-3 text-white mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;        <span>You have to pay</span>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="d-flex flex-row align-items-end mb-3">&ndash;&gt;-->
+<!--&lt;!&ndash;          <h1 class="mb-0 yellow">${{ checkout.shop_cost }}</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--  </div>-->
+<!--</div>-->

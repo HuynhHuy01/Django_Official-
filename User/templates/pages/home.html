@@ -1,0 +1,206 @@
+{% extends 'layouts/base.html' %} {% load static %} {% block content %}
+
+<style>
+  body {
+    overflow-x: hidden;
+  }
+</style>
+
+<div id="colorlib-page">
+  <div id="colorlib-main">
+    <aside id="colorlib-hero" class="js-fullheight">
+      <div class="flexslider js-fullheight">
+        <ul class="slides">
+          {% for slider in sliders %}
+           <li style="background-image: url({{ slider.slider_img.url }});">
+             <div class="overlay"></div>
+             <div class="container-fluid">
+               <div class="row">
+                 <div class="col-md-6 col-md-offset-3 col-md-push-3 col-sm-12 col-xs-12 js-fullheight slider-text">
+                   <div class="slider-text-inner">
+                     <div class="desc">
+                       <h1>{{ slider.slider_header_content }}</h1>
+                       <h2>{{ slider.slider_text_content }}<a href="https://colorlib.com/" target="_blank"></a></h2>
+                      <p><a class="btn btn-primary btn-learn"href="{% url 'book:books' %}" >View Books <i class="icon-arrow-right3"></i></a></p>
+                    </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </li>
+           {% endfor %}
+          </ul>
+        </div>
+    </aside>
+
+    <div class="colorlib-about">
+      <div class="colorlib-narrow-content">
+        {% for whoweare in whocontents %}
+        <div class="row">
+          <div class="col-md-6">
+            <div class="about-img animate-box" data-animate-effect="fadeInLeft" style="background-image: url({{ whoweare.left_image.url }});">
+            </div>
+          </div>
+          <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
+            <div class="about-desc">
+              <span class="heading-meta">Welcome</span>
+              <h2 class="colorlib-heading">Who we are</h2>
+              <p>{{ whoweare.right_content_text }}</p>
+            </div>
+            <div class="row padding">
+              <div class="col-md-4 no-gutters animate-box" data-animate-effect="fadeInLeft">
+                <a href="#" class="steps active">
+                  <p class="icon"><span><i class="icon-check"></i></span></p>
+                  <h3>{{ whoweare.right_content_1 }}</h3>
+                </a>
+              </div>
+              <div class="col-md-4 no-gutters animate-box" data-animate-effect="fadeInLeft">
+                <a href="#" class="steps">
+                  <p class="icon"><span><i class="icon-check"></i></span></p>
+                  <h3>{{ whoweare.right_content_2 }}</h3>
+                </a>
+              </div>
+              <div class="col-md-4 no-gutters animate-box" data-animate-effect="fadeInLeft">
+                <a href="#" class="steps">
+                  <p class="icon"><span><i class="icon-check"></i></span></p>
+                  <h3> {{ whoweare.right_content_3 }} </h3>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    
+    <!-- what i do page here -->
+    <div class="colorlib-services">
+      <div class="colorlib-narrow-content">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+            <span class="heading-meta">What I do?</span>
+            <h2 class="colorlib-heading">Here are some essentials of our website</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                {% for essential in essentials %}
+                <div class="colorlib-feature animate-box" data-animate-effect="fadeInLeft">
+                  <div class="colorlib-icon" style="padding-top: 20px; box-sizing: border-box;">
+                    <img src="{{ essential.essential_page_image.url }}" alt="" style="width: 7em;background-color: white">
+                  </div>
+                  <div class="colorlib-text">
+                    <h3>{{ essential.essential_header_text }}</h3>
+                    <p>{{ essential.esential_paragraph }}</p>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <!-- right content here -->
+          <div class="col-md-6">
+            {% for essential_right in essential_right_content %}
+            <div class="row">
+              <div class="col-md-6">
+                <a href="#" class="services-wrap animate-box" data-animate-effect="fadeInRight">
+                  <div class="services-img" style="background-image: url({{ essential_right.essential_right_image.url }})"></div>
+                  <div class="desc">
+                    <h3>{{ essential_right.essentials_right_content }}</h3>
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <!-- right content end here -->
+        </div>
+      </div>
+    </div>
+    
+    <div id="colorlib-counter" class="colorlib-counters" style="background-image: url({% static 'img/cover_bg_1.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="colorlib-narrow-content">
+        <div class="row">
+        </div>
+        <div class="row">
+          {% for count in count_values %}
+          <div class="col-md-3 text-center animate-box">
+            <span class="icon"><img style="border-radius: 50%; background-color: #ddd; padding: 10px;" src="{{ count.count_img.url }}" alt=""></span>
+            <span class="colorlib-counter js-counter" data-from="0" data-to="{{ count.count_number }}" data-speed="7000" data-refresh-interval="50"></span>
+            <span class="colorlib-counter-label">{{ count.count_text }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+
+    <!-- books to read part -->
+    <div class="colorlib-work">
+      <div class="colorlib-narrow-content">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+            <span class="heading-meta">Book Categories</span>
+            <h2 class="colorlib-heading animate-box">Books to know</h2>
+          </div>
+        </div>
+        <div class="row">
+          {% for book_read in book_cards %}
+          <div class="col-md-3 animate-box" data-animate-effect="fadeInLeft">
+            {% comment %} <a href="{% url 'book:details' book_read.pk %}"> {% endcomment %}
+            <div class="project" style="background-image: url({{ book_read.book_cover.url }});">
+               {% comment %} <a href="{% url 'book:details' book_read.pk %}"> {% endcomment %}
+          
+              <div class="desc">
+                <div class="con">
+                  <h3><a href="#">{{ book_read.book_name }}</a></h3>
+                  <span>{{ book_read.book_subititle }}</span>
+                  <p class="icon">
+                    <span><a href="{% url 'book:books' %}"><i class="icon-share3"></i></a></span>
+                    <span><a href="{% url 'book:books' %}"><i class="icon-eye"></i> 100</a></span>
+                    <span><a href="{% url 'book:books' %}"><i class="icon-heart"></i> 49</a></span>
+                  </p>
+                </div>
+              </div>
+               </a>
+            </div>
+             {% comment %} </a> {% endcomment %}
+          </div>
+
+          {% endfor %}
+        </div>
+        <a class="btn btn-primary" href="{% url 'book:books' %}">Read more</a>
+      </div>
+    </div>
+
+    <!-- books to read part -->
+
+
+    <!-- contact me context -->
+    <div id="get-in-touch" class="colorlib-bg-color">
+      {% for context in contact_me_context %}
+      <div class="colorlib-narrow-content">
+        <div class="row">
+          <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
+            <h2>{{ context.contact_header }}</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+            <p class="colorlib-lead">{{ context.contact_text }}</p>
+            <p><a href="#" class="btn btn-primary btn-learn">Contact me!</a></p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- contact me context -->
+
+  </div>
+</div>
+
+{% endblock content %}
