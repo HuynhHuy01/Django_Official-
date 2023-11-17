@@ -85,12 +85,28 @@ WSGI_APPLICATION = 'BookWebsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME' : 'railway',
+            'USER' : 'postgres',
+            'PASSWORD': '64c5344Ed2bgF3dBd*EbfE4bbC3B2a-C',
+            'HOST': 'postgres',
+            'PORT': '44520',
+            'OPTIONS': {
+                'client_encoding': 'UTF8',
+            },
+        }
+    } 
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -147,6 +163,7 @@ MEDIA_URL = '/User/media/'
 # Default primary key field type
 
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
 
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
