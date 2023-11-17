@@ -7,5 +7,7 @@
     "routes": [{
         "src": "/(.*)",
         "dest": "BookWebsite/wsgi.py"
-    }]
+    }],
+
+    "installCommand": "pip install -r requirements.txt"
 }
