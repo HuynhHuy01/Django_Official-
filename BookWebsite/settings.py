@@ -34,11 +34,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-&$50d$a%bi003us+yd2ms(%b6mln#kv@&lajs#mj-nb(9v!pix'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False
+
 
 # ALLOWED_HOSTS = ['.vercel.app','127.0.0.1','localhost']
-ALLOWED_HOSTS = ['.vercel.app','127.0.0.1','localhost'] 
-# ALLOWED_HOSTS = ['*']
+
+ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
@@ -86,11 +88,18 @@ WSGI_APPLICATION = 'BookWebsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# } 
+
+
+import dj_database_url
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default' : dj_database_url.parse('postgres://productdatabase_y9v0_user:2w57IuxGDzpXmhT9TVHPmoh65bTzdvPr@dpg-clo37g4jtl8s73aj6c70-a.ohio-postgres.render.com/productdatabase_y9v0')
+    
 }
 
 # DATABASES = {
