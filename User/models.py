@@ -201,45 +201,6 @@ class UserModel(models.Model):
     def __str__(self):
         return self.name
 
-# class Cart(models.Model):
-#     user = models.ForeignKey(UserModel,on_delete=models.SET_NULL,blank=True,null=True)
-#     active = models.BooleanField(default=True)
-#     order_date = models.DateField(null=True)
-#     payment_type = models.CharField(max_length=100, null=True)
-#     payment_id = models.CharField(max_length=100, null=True)
-
-#     def __unicode__(self): 
-#             return "%s" % (self.user)
-
-#     def add_to_cart(self, book_id):
-#         book = BookCardsModel.objects.get(pk=book_id)
-#         try:
-#             preexisting_order = Order.objects.get(book=book, cart=self)
-#             preexisting_order.quantity += 1
-#             preexisting_order.save()
-#         except Order.DoesNotExist:
-#             new_order = Order.objects.create(
-#                 book=book,
-#                 cart=self,
-#                 quantity=1
-#                 )
-#             new_order.save()
-
-#             def __unicode__(self):
-#                 return "%s" % (self.book_id)
-            
-
-    # def remove_from_cart(self, book_id):
-    #     book = BookCardsModel.objects.get(pk=book_id)
-    #     try:
-    #         preexisting_order = Order.objects.get(book=book, cart=self)
-    #         if preexisting_order.quantity > 1:
-    #             preexisting_order.quantity -= 1
-    #             preexisting_order.save()
-    #         else:
-    #             preexisting_order.delete()
-    #     except Order.DoesNotExist:
-    #         pass
         
 #create Order
 class Order(models.Model):

@@ -37,7 +37,8 @@ SECRET_KEY = 'django-insecure-&$50d$a%bi003us+yd2ms(%b6mln#kv@&lajs#mj-nb(9v!pix
 DEBUG = True
 
 # ALLOWED_HOSTS = ['.vercel.app','127.0.0.1','localhost']
-ALLOWED_HOSTS = ['.vercel.app','now.sh','127.0.0.1','localhost'] 
+ALLOWED_HOSTS = ['.vercel.app','127.0.0.1','localhost'] 
+# ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
@@ -85,26 +86,26 @@ WSGI_APPLICATION = 'BookWebsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME' : 'railway',
-            'USER' : 'postgres',
-            'PASSWORD': '64c5344Ed2bgF3dBd*EbfE4bbC3B2a-C',
-            'HOST': 'postgres',
-            'PORT': '44520',
-            'OPTIONS': {
-                'client_encoding': 'UTF8',
-            },
-        }
-    } 
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'NAME' : 'railway',
+#             'USER' : 'postgres',
+#             'PASSWORD': 'EGg4GeE-bFdgg1F-4dGc622dCcB2C-1E',
+#             'HOST': 'viaduct.proxy.rlwy.net',
+#             'PORT': '22223',
+#             'OPTIONS': {
+#                 'client_encoding': 'UTF8',
+#             },
+#         }
+#     } 
 
 
 
