@@ -32,9 +32,9 @@ import tensorflow
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Dense, Dropout  
 
-# import nltk
-# nltk.download('punkt')
-# nltk.download('wordnet')
+import nltk
+nltk.download('punkt')
+nltk.download('wordnet')
 
 def about(request):
     context = {}
@@ -352,7 +352,7 @@ def ChatBot(request):
      context = {}
      return render(request,'pages/chat.html',context)
  
-def chatBot(request):
+def Chat(request):
    query = str(request.GET.get("query"))
    # print(query)
    lemmatizer = WordNetLemmatizer()

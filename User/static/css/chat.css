@@ -42,7 +42,7 @@ body {
 .container {
     position: absolute;
     right: 30px;
-    /*Right and bottom are set to position the chat bot window in the right-corner of the screen*/
+    /*Rightandbottomaresettopositionthechatbotwindowintheright-cornerofthescreen*/
     bottom: 60px;
     width: 450px;
     height: 80vh;
@@ -53,6 +53,11 @@ body {
     border: 2px solid dodgerblue;
     border-radius: var(--chatBot_windowCommonRadius);
     z-index: var(--chatBot_ZIndex);
+    padding: 1em 0em 0em 0em;
+    -webkit-border-radius: var(--chatBot_windowCommonRadius);
+    -moz-border-radius: var(--chatBot_windowCommonRadius);
+    -ms-border-radius: var(--chatBot_windowCommonRadius);
+    -o-border-radius: var(--chatBot_windowCommonRadius);
 }
 
 .header {

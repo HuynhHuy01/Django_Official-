@@ -1,5 +1,6 @@
-{% extends 'pages/chat.html' %} {% load static %} {% block content %}
-
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
 <style>
   body {
     overflow-x: hidden;
@@ -18,10 +19,67 @@
       height: 300px !important;
     }
   }
+  .showBot {
+  position: absolute;
+  right: 30px;
+  /*Rightandbottomaresettopositionthechatbotwindowintheright-cornerofthescreen*/
+  bottom: 25px;
+  padding: 10px 40px 10px 37px;
+  font-size: 18px;
+  border: none;
+  border-radius: var(--chatBot_windowCommonRadius);
+  outline: none;
+  background-color: dodgerblue;
+  color: #f8f8f8;
+  box-shadow: 10px 10px 5px #aaaaaa;
+  cursor: pointer;
+  -webkit-border-radius: var(--chatBot_windowCommonRadius);
+  -moz-border-radius: var(--chatBot_windowCommonRadius);
+  -ms-border-radius: var(--chatBot_windowCommonRadius);
+  -o-border-radius: var(--chatBot_windowCommonRadius);
+}
+
+.aapi-popup-dialog {
+  position: absolute;
+  right: 30px;
+  bottom: 95px;
+  font-size: 18px;
+  padding: 10px 10px 10px 10px;
+  border: none;
+  border-radius: var(--chatBot_windowCommonRadius);
+  outline: none;
+  background-color: dodgerblue;
+  color: #f8f8f8;
+}
+
+.attention {
+  position: absolute;
+  right: 25px;
+  bottom: 145px;
+  padding: 10px;
+  border-radius: 100%;
+  background-color: red;
+}
+
+.down-triangle {
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: 68px;
+  bottom: 75px;
+  border: 20px solid transparent;
+  border-top: 20px solid dodgerblue;
+  border-bottom: 0;
+}
+
+.hidden {
+  display: none;
+} 
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<section class="text-gray-600 body-font mx-auto books">
+
+ <section class="text-gray-600 body-font mx-auto books">
   <div class="container px-5 py-5 mx-auto">
     <!-- dropdown button -->
     <!-- <div class="btn dropend">
@@ -54,11 +112,11 @@
         {% endfor %}
       </ul>
     </div> -->
-<!--    <h1 style="-->
+{% comment %} <!--    <h1 style="-->
 <!--        font-size: 40px;-->
 <!--        color: #444;-->
 <!--        text-align: center;-->
-<!--        margin-bottom: 20px;"> </h1>-->
+<!--        margin-bottom: 20px;"> </h1> {% endcomment %}
 
 <div class = "search-nextto-cart" style="display:flex;justify-content: space-around;;" >
 <form class="input-group rounded" style="display: flex;align-items: center;width: 30em;" role="search" method = POST  action="{% url 'book:search' %}">
@@ -73,6 +131,7 @@
   <span class='cart-total'>{{ get_cart_quantity }}</span>
 </div>
 </div>
+
 
 
     <div class="flex flex-wrap m-4">
@@ -136,7 +195,19 @@
       </div>
       {% endfor %}
     </div>
-  </div>
+
+      <div class = 'Chat-showBot' style="position:absolute;right:0">
+        <a href = "{%url 'book:ChatBot'%}">
+        <div class="popup-dialog fade-in-transition" href="{% url 'book:chat' %}" >
+          <div class="aapi-popup-dialog">
+            <span>Hi there, I'm AIChatBot. <br>How may I help you today?</span>
+          </div>
+          <div class="down-triangle"></div>
+        </div>
+        <button id="showBotbtn" class="showBot fade-in-transition" type="button" onclick="{% url 'book:ChatBot' %}" >Chat</button>
+      </a>
+      </div> 
+  
 </section>
 
 {% endblock content %}
