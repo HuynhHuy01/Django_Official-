@@ -20,8 +20,8 @@ env = environ.Env(
 environ.Env.read_env() 
 
 
-DEBUG = env('DEBUG')
-SECRET_KEY = env('SECRET_KEY')
+# DEBUG = env('DEBUG')
+# SECRET_KEY = env('SECRET_KEY')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,7 +35,7 @@ SECRET_KEY = 'django-insecure-&$50d$a%bi003us+yd2ms(%b6mln#kv@&lajs#mj-nb(9v!pix
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = False
+DEBUG = True
 
 
 # ALLOWED_HOSTS = ['.vercel.app','127.0.0.1','localhost']
@@ -98,8 +98,7 @@ WSGI_APPLICATION = 'BookWebsite.wsgi.application'
 
 import dj_database_url
 DATABASES = {
-    'default' : dj_database_url.parse('postgres://productdatabase_y9v0_user:2w57IuxGDzpXmhT9TVHPmoh65bTzdvPr@dpg-clo37g4jtl8s73aj6c70-a.ohio-postgres.render.com/productdatabase_y9v0')
-    
+    'default' : dj_database_url.parse('postgres://django_official_user:KeSSOCuTq5vpQqTfCGYZRu0j2TbIDeWc@dpg-clolsd146foc73a1ngh0-a.ohio-postgres.render.com/django_official')  
 }
 
 # DATABASES = {
