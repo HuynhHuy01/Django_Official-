@@ -56,7 +56,7 @@ top: 50%;transform: translate(-50%, -50%);width: 60%;">
     <br>
     <div class="box-element hidden" id="payment-info">
       <small>Paypal Options</small>
-      {% comment %} <button id = 'make-payment'>Make Payment </button> {% endcomment %}
+      <button id = 'make-payment'>Make Payment </button>
       <div id = 'paypal-button-container'>Payment</div> 
     </div>
     
@@ -99,7 +99,7 @@ paypal.Buttons({
 
   style:{
     color : 'blue',
-    shape : 'rect'
+    shape : 'rect',
   }
 
   createOrder: function(data,actions){
@@ -148,8 +148,8 @@ paypal.Buttons({
 
   var form = document.getElementById('form')
 
-  {% comment %} csrftoken = form.getElementsByTagName('input')[0].value
-  console.log('New Token:' form.getElementsByTagName('input')[0].value) {% endcomment %}
+  csrftoken = form.getElementsByTagName('input')[0].value
+  console.log('New Token:' form.getElementsByTagName('input')[0].value)
 
   form.addEventListener('submit',function(e){
     e.preventDefault()
@@ -158,9 +158,9 @@ paypal.Buttons({
     document.getElementById('payment-info').classList.remove('hidden')
   })
 
-  {% comment %} document.getElementById('make-payment').addEventListener('click',function(e){
+  document.getElementById('make-payment').addEventListener('click',function(e){
        SubmitFormData()
-  }) {% endcomment %}
+  }) 
 
 
   function SubmitFormData()

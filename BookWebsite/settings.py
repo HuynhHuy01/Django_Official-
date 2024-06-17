@@ -86,20 +86,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'BookWebsite.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+# https://docs.djangoproject.com/en/4.2/ref/settings/
+# #databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# } 
-
-
-import dj_database_url
 DATABASES = {
-    'default' : dj_database_url.parse('postgres://django_official_user:KeSSOCuTq5vpQqTfCGYZRu0j2TbIDeWc@dpg-clolsd146foc73a1ngh0-a.ohio-postgres.render.com/django_official')  
-}
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+} 
+
+
+# import dj_database_url
+# DATABASES = {
+#     'default' : dj_database_url.parse('postgres://django_official_user:KeSSOCuTq5vpQqTfCGYZRu0j2TbIDeWc@dpg-clolsd146foc73a1ngh0-a.ohio-postgres.render.com/django_official')  
+# }
 
 # DATABASES = {
 #         'default': {

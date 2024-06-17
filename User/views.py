@@ -37,8 +37,7 @@ import pickle
 nltk.download('punkt')
 nltk.download('wordnet')
 
-
-from tensorflow.keras.models import load_model 
+from keras.models import load_model
 
 def about(request):
     context = {}
@@ -410,11 +409,11 @@ def Chat(request):
    sgd = tensorflow.keras.optimizers.SGD(learning_rate=lr_schedule, momentum=0.9, nesterov=True)
    model.compile(loss='categorical_crossentropy',optimizer= sgd,metrics=['accuracy'])
    history = model.fit(np.array(train_x),np.array(train_y),epochs=20,batch_size=1,verbose=7)
-   model.save('chatbot_model.model',history)
+#    model.save('chatbot_model.model',history)
 
    words = pickle.load(open('words.pkl','rb'))
    classes = pickle.load(open('classes.pkl','rb'))
-   model = load_model('chatbot_model.model')
+#    model = load_model('chatbot_model.model')
    
    def cleaning_up_message(message):
       message_word = word_tokenize(message)
