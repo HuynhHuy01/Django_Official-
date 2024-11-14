@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html' %} {% load static %} {% block content %}
-
+{% load crispy_forms_tags %}
 <style>
   body {
     overflow-x: hidden;
@@ -149,6 +149,8 @@
           </div>
         </div>
         <div class="row">
+          {% csrf_token %}
+          {{ form|crispy }}
           {% for book_read in book_cards %}
           <div class="col-md-3 animate-box" data-animate-effect="fadeInLeft">
             {% comment %} <a href="{% url 'book:details' book_read.pk %}"> {% endcomment %}

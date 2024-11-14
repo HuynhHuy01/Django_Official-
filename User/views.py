@@ -34,6 +34,9 @@ from tensorflow.keras.layers import Dense, Dropout
 
 import nltk
 import pickle
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 nltk.download('punkt')
 nltk.download('wordnet')
 
@@ -108,6 +111,10 @@ def login_required_book_lists(request):
     context = {'book_cards': book_cards,'items' : items,'order' : order,'get_cart_quantity':get_cart_quantity,'shipping': False}
 
     return render(request, 'pages/books.html', context)
+
+# def logout_view(request):
+#     logout(request)
+#     return redirect('home')
 
 
 def search(request):
@@ -455,4 +462,11 @@ def Chat(request):
    message = query
    ints = predict_intent_tag(message)
    bot_response = get_response(ints, readobj)
+
+   user = request.user
+
+   chat_history,created = ChatHistory.objects.get_or_create(user=user)
+
+    # Save the interaction to the database
+   ChatMessage.objects.create(chat_history = chat_history, message=query, bot_response=bot_response)
    return JsonResponse({"Bot": bot_response})

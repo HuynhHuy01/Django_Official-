@@ -32,5 +32,9 @@ admin.site.register(Order)
 admin.site.register(OrderItem)
 admin.site.register(ShippingAddress)
 
-admin.site.register(ChatBotModel)
+
+admin.site.register(ChatHistory)
+admin.site.register(ChatMessage)
+
+
 # Register your models here.

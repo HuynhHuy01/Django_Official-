@@ -271,11 +271,34 @@ class Agent(models.Model):
 
     def __str__(self):
         return str(self.user)
+    
+class ChatHistory(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Mỗi người dùng chỉ có 1 lịch sử chat
+    created_at = models.DateTimeField(auto_now_add=True)  # Thời gian tạo lịch sử chat
+    last_message = models.TextField(null=True, blank=True)  # Lưu tin nhắn cuối cùng
+    last_response = models.TextField(null=True, blank=True)  # Lưu phản hồi cuối cùng
 
-class ChatBotModel(models.Model):
-    text = models.TextField()
-    class meta:
-        verbose_name_plural = "Responses"
+    def update_last_message(self, message, response):
+        self.last_message = message
+        self.last_response = response
+        self.save()
 
     def __str__(self):
-        return self.text
+        return f"Chat history for {self.user.username} created at {self.created_at}"    
+
+class ChatMessage(models.Model):
+    chat_history = models.ForeignKey(ChatHistory, on_delete=models.CASCADE, related_name="messages")  # Liên kết với lịch sử chat
+    message = models.TextField()  # The user's message
+    bot_response = models.TextField()  # The bot's response
+    timestamp = models.DateTimeField(auto_now_add=True)  # Timestamp for when the message was created
+   
+    def save(self, *args, **kwargs):
+        # Lưu tin nhắn
+        super().save(*args, **kwargs)
+        
+        # Cập nhật lịch sử chat với tin nhắn và phản hồi cuối cùng
+        self.chat_history.update_last_message(self.message, self.bot_response)
+
+    def __str__(self):
+        return f"Message from {self.chat_history.user.username} at {self.timestamp}"
+    

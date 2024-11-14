@@ -23,6 +23,7 @@ urlpatterns = [
     path("create/", CreateUserView.as_view(), name='create_user'),
     path('about/', views.about, name='about'),
     path('process_order/',processOrder,name ='process_order'),
-    path('chat/',views.Chat,name = 'chat'),
-    path('chatbot/',views.ChatBot,name ='ChatBot')
+    path('chat/',views.ChatBot,name = 'chat'),
+    path('chatbot/',views.Chat,name ='ChatBot'),
+    
 ]
