@@ -1,0 +1,85 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-04 16:08+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\test\IPython\core\tests\test_completer.py:420
+msgid "open('foo"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:424
+msgid "open(\"foo"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:428
+#, python-format
+msgid "%ls foo"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:563
+msgid "a[0]."
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:570
+msgid "a[0].r"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:578
+msgid "a[0].from_"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:585
+msgid "assert str.star"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:592
+msgid "d['a b'].str"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:1552
+#: .\test\IPython\core\tests\test_completer.py:1574
+#: .\test\IPython\core\tests\test_completer.py:1577
+msgid "do not suppress"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:1553
+#: .\test\IPython\core\tests\test_completer.py:1565
+#: .\test\IPython\core\tests\test_completer.py:1568
+#: .\test\IPython\core\tests\test_completer.py:1571
+msgid "suppress all"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:1554
+msgid "suppress all but a"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:1555
+msgid "suppress all but c"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:1603
+#: .\test\IPython\core\tests\test_completer.py:1606
+msgid "---"
+msgstr ""
+
+#: .\test\IPython\core\tests\test_completer.py:1609
+msgid "--"
+msgstr ""
+
+#: .\test\isort\main.py:158
+msgid "show this help message and exit"
+msgstr ""

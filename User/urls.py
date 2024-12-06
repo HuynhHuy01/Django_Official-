@@ -5,6 +5,12 @@ from . import views
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views.generic.base import RedirectView
 
+from django.conf import settings
+from django.conf.urls.static import static
+
+
+from django.conf.urls.i18n import i18n_patterns
+from django.views.i18n import set_language
 
 app_name = 'book'
 urlpatterns = [
@@ -25,5 +31,9 @@ urlpatterns = [
     path('process_order/',processOrder,name ='process_order'),
     path('chat/',views.ChatBot,name = 'chat'),
     path('chatbot/',views.Chat,name ='ChatBot'),
+
+
+    path('test/',views.test,name ='test'),
+    path('set_language/', set_language, name='set_language'),
     
 ]

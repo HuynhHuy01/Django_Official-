@@ -67,6 +67,12 @@ def home(request):
         'book_cards': book_cards,
         'contact_me_context': contact_me_context,
     }
+    
+    lang_code = request.GET.get('lang')
+    if lang_code in ['en', 'vn']:  # Ensure you are switching to a valid language code
+        activate(lang_code)
+        request.session['django_language'] = lang_code
+
     return render(request, 'pages/home.html', context)
 
 
@@ -362,6 +368,75 @@ def ChatBot(request):
      context = {}
      return render(request,'pages/chat.html',context)
  
+from tensorflow.keras.optimizers import SGD
+def train_chatbot():
+    lemmatizer = WordNetLemmatizer()
+
+    # Load intents
+    with open('jsonfile.json') as file:
+        intents = json.load(file)
+
+    words = []
+    classes = []
+    documents = []
+
+    # Process intents
+    for intent in intents['intents']:
+        for pattern in intent['patterns']:
+            word_list = word_tokenize(pattern)
+            words.extend(word_list)
+            documents.append((word_list, intent['tag']))
+            if intent['tag'] not in classes:
+                classes.append(intent['tag'])
+
+    words = sorted(set([lemmatizer.lemmatize(w.lower()) for w in words if w not in ['is', 'and', 'the', 'a', 'are', 'i', 'it']]))
+    classes = sorted(set(classes))
+
+    # Save words and classes
+    pickle.dump(words, open('words.pkl', 'wb'))
+    pickle.dump(classes, open('classes.pkl', 'wb'))
+
+    training = []
+    output_empty = [0] * len(classes)
+
+    for document in documents:
+        bag = []
+        word_patterns = [lemmatizer.lemmatize(word.lower()) for word in document[0]]
+
+        for word in words:
+            bag.append(1) if word in word_patterns else bag.append(0)
+
+        output_row = list(output_empty)
+        output_row[classes.index(document[1])] = 1
+        training.append([bag, output_row])
+
+    random.shuffle(training)
+    training = np.array(training, dtype=object)
+    train_x = list(training[:, 0])
+    train_y = list(training[:, 1])
+
+    # Build the model
+    model = Sequential([
+        Dense(128, input_shape=(len(train_x[0]),), activation='relu'),
+        Dropout(0.2),
+        Dense(64, activation='relu'),
+        Dropout(0.2),
+        Dense(len(train_y[0]), activation='softmax')
+    ])
+
+    # Compile the model
+    sgd = SGD(learning_rate=0.01, momentum=0.9, nesterov=True)
+    model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+
+    # Train the model
+    model.fit(np.array(train_x), np.array(train_y), epochs=20, batch_size=1, verbose=1)
+
+    # Save the model
+    model.save('chatbot_model.h5')
+    print("Model training complete and saved as chatbot_model.h5")
+
+# train_chatbot()
+
 def Chat(request):
    query = str(request.GET.get("query"))
    lemmatizer = WordNetLemmatizer()
@@ -369,57 +444,63 @@ def Chat(request):
    with open('jsonfile.json') as fileobj:
       readobj=json.load(fileobj)
 
-   words=[]
-   classes=[]
-   documents=[]
-   stop_words=['is','and','the','a','are','i','it']
-   cleaned_word=[]
+   words = pickle.load(open('words.pkl', 'rb'))
+   classes = pickle.load(open('classes.pkl', 'rb'))
 
-   for intent in readobj['intents']:
-      for pattern in intent['patterns']:
-         word_list=word_tokenize(pattern)
-         words.extend(word_list)
-         documents.append((word_list,intent['tag']))
-         if intent['tag'] not in classes:
-               classes.append(intent['tag'])
+   model = load_model('chatbot_model.h5')   
 
-   words = sorted(set(words))
-   classes = sorted(set(classes))
-   pickle.dump(words, open('words.pkl','wb'))
-   pickle.dump(classes,open('classes.pkl','wb'))
+#    words=[]
+#    classes=[]
+#    documents=[]
+#    stop_words=['is','and','the','a','are','i','it']
+#    cleaned_word=[]
+
+#    for intent in readobj['intents']:
+#       for pattern in intent['patterns']:
+#          word_list=word_tokenize(pattern)
+#          words.extend(word_list)
+#          documents.append((word_list,intent['tag']))
+#          if intent['tag'] not in classes:
+#                classes.append(intent['tag'])
+
+
+#    words = sorted(set(words))
+#    classes = sorted(set(classes))
+#    pickle.dump(words, open('words.pkl','wb'))
+#    pickle.dump(classes,open('classes.pkl','wb'))
    
-   training =[]
-   output_empty = [0] * len(classes)
+#    training =[]
+#    output_empty = [0] * len(classes)
 
 
-   for document in documents:
-      bag =[]
-      word_patterns = document[0]
+#    for document in documents:
+#       bag =[]
+#       word_patterns = document[0]
 
-      word_patterns = [lemmatizer.lemmatize(word.lower()) for word in word_patterns]
+#       word_patterns = [lemmatizer.lemmatize(word.lower()) for word in word_patterns]
 
-      for word in words :
-       bag.append(1) if word in word_patterns else bag.append(0)
-      output_row = list(output_empty)
-      output_row[classes.index(document[1])] = 1 
-      training.append([bag,output_row])
+#       for word in words :
+#        bag.append(1) if word in word_patterns else bag.append(0)
+#       output_row = list(output_empty)
+#       output_row[classes.index(document[1])] = 1 
+#       training.append([bag,output_row])
 
 
-   random.shuffle(training)
-   training = np.array(training,dtype=object)
-   train_x = list(training[:,0])
-   train_y = list(training[:,1])
+#    random.shuffle(training)
+#    training = np.array(training,dtype=object)
+#    train_x = list(training[:,0])
+#    train_y = list(training[:,1])
 
-   model = Sequential([Dense(128, input_shape = (len(train_x[0]),),activation='relu'),Dropout(0.2),Dense(64, activation='relu'),Dropout(0.2),Dense(len(train_y[0]),activation = 'softmax')])
-   initial_learning_rate = 0.01
-   lr_schedule = tensorflow.keras.optimizers.schedules.ExponentialDecay(initial_learning_rate, decay_steps=10000, decay_rate=0.9)
-   sgd = tensorflow.keras.optimizers.SGD(learning_rate=lr_schedule, momentum=0.9, nesterov=True)
-   model.compile(loss='categorical_crossentropy',optimizer= sgd,metrics=['accuracy'])
-   history = model.fit(np.array(train_x),np.array(train_y),epochs=20,batch_size=1,verbose=7)
-#    model.save('chatbot_model.model',history)
+#    model = Sequential([Dense(128, input_shape = (len(train_x[0]),),activation='relu'),Dropout(0.2),Dense(64, activation='relu'),Dropout(0.2),Dense(len(train_y[0]),activation = 'softmax')])
+#    initial_learning_rate = 0.01
+#    lr_schedule = tensorflow.keras.optimizers.schedules.ExponentialDecay(initial_learning_rate, decay_steps=10000, decay_rate=0.9)
+#    sgd = tensorflow.keras.optimizers.SGD(learning_rate=lr_schedule, momentum=0.9, nesterov=True)
+#    model.compile(loss='categorical_crossentropy',optimizer= sgd,metrics=['accuracy'])
+#    history = model.fit(np.array(train_x),np.array(train_y),epochs=20,batch_size=1,verbose=7)
+# #    model.save('chatbot_model.model',history)
 
-   words = pickle.load(open('words.pkl','rb'))
-   classes = pickle.load(open('classes.pkl','rb'))
+#    words = pickle.load(open('words.pkl','rb'))
+#    classes = pickle.load(open('classes.pkl','rb'))
 #    model = load_model('chatbot_model.model')
    
    def cleaning_up_message(message):
@@ -470,3 +551,21 @@ def Chat(request):
     # Save the interaction to the database
    ChatMessage.objects.create(chat_history = chat_history, message=query, bot_response=bot_response)
    return JsonResponse({"Bot": bot_response})
+
+
+from django.shortcuts import render, redirect
+from django.utils.translation import activate, gettext as _
+
+def test(request):
+    # Handle language switching if 'lang' parameter is in the GET request
+    if 'lang' in request.GET:
+        lang_code = request.GET['lang']
+        if lang_code in ['en', 'vn']:  # Ensure you are switching to a valid language code
+            activate(lang_code)  # Activate the selected language
+            request.session['django_language'] = lang_code  # Store the language in session
+
+    # Prepare context for the template
+    context = {'hello': _('Hello')}
+
+    # Render the page
+    return render(request, 'pages/test.html', context)

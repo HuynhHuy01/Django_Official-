@@ -1,0 +1,152 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Language Toggle" %}</title>
+    <style>
+        /* Global styling */
+        /* body {
+            font-family: 'Poppins', sans-serif; 
+            background-color: #121212; 
+            color: #f5f5f5; 
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        } */
+
+        /* Main container for the language toggle */
+        .language-toggle-container {
+            display: inline-flex;
+            border: 2px solid #e67e22; /* Gold border */
+            border-radius: 50px;
+            overflow: hidden;
+            background: linear-gradient(145deg, #333, #222); /* Subtle gradient for depth */
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Shadow for extra depth */
+            transition: all 0.3s ease-in-out;
+            margin-top: 50px;
+        }
+
+        /* Styling for language buttons */
+        .language-toggle-button {
+            padding: 5px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #e67e22; /* Gold color */
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border-radius: 50px;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        /* Active button styles */
+        .language-toggle-button.active {
+            background-color: #e67e22; /* Gold background when active */
+            /* border: 2px solid white; */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* Glow effect */
+            color: #fff; /* White text on active button */
+            transform: scale(0.7); /* Slight zoom effect */
+            /* box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);  */
+            /* transition: all 0.2s ease-in-out; */
+        }
+
+        /* Hover effects for buttons */
+        .language-toggle-button:hover {
+            background-color: #e87e22; /* Slightly brighter gold on hover */
+            color: #fff; /* Keep text white */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Larger shadow for interaction */
+            /* transform: translateY(-5px);  */
+        }
+
+        /* Specific hover effect for EN and VN buttons */
+        #btnVN:hover, #btnEN:hover {
+            color: white;
+        }
+
+        /* Content Section Styling */
+        #content {
+            margin-top: 60px;
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        #content h1 {
+            font-size: 3.5em;
+            color: #f5f5f5;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7); /* Cinematic glow */
+            margin-bottom: 20px;
+        }
+
+        #content p {
+            font-size: 1.5em;
+            color: #bbb; /* Softer text */
+            margin-top: 15px;
+            line-height: 1.8;
+        }
+
+        /* Animation for fading in content */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Adjust layout on small screens (responsive design) */
+        @media (max-width: 768px) {
+            .language-toggle-button {
+                font-size: 16px; /* Smaller font on mobile */
+                padding: 12px 20px; /* Adjust padding on mobile */
+            }
+            #content h1 {
+                font-size: 2.5em; /* Adjust heading size */
+            }
+            #content p {
+                font-size: 1.2em; /* Adjust paragraph size */
+            }
+        }
+    </style>
+</head>
+<body>
+ 
+
+    <!-- Language Toggle Container -->
+    <div class="language-toggle-container">
+        <!-- VN Language Button -->
+        <button id="btnVN" class="language-toggle-button {% if LANGUAGE_CODE == 'vn' %}active vn{% endif %}" onclick="setLanguage('vn')">VN</button>
+
+        <!-- EN Language Button -->
+        <button id="btnEN" class="language-toggle-button {% if LANGUAGE_CODE == 'en' %}active en{% endif %}" onclick="setLanguage('en')">EN</button>
+    </div>
+   
+
+    <script> 
+        // Function to handle language switching
+        function setLanguage(lang) {
+            const btnVN = document.getElementById('btnVN');
+            const btnEN = document.getElementById('btnEN');
+
+            // Remove active class from both buttons
+            btnVN.classList.remove('active');
+            btnEN.classList.remove('active');
+
+            // Add the active class to the clicked button
+            if (lang === 'vn') {
+                btnVN.classList.add('active');
+            } else {
+                btnEN.classList.add('active');
+            }
+
+            // Change the language using URL parameters
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('lang', lang);  // Set language in query parameter
+            window.location.href = currentUrl.toString(); // Reload page with the new language
+        }
+    </script>
+</body>
+</html> 

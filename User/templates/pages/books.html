@@ -1,7 +1,8 @@
-{% extends 'layouts/base.html' %}
-{% load static %}
+{% extends 'layouts/base.html' %} {% load static %}
 {% block content %}
+
 <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/chat.css' %}">
 <style>
   
   body {
@@ -21,181 +22,8 @@
       height: 300px !important;
     }
   }
-
-  /* .botTyping-bg {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 0px 0px 10px 20px;
-}
-
-.botTyping {
-    margin-right: 60%;
-    color: #fff;
-}
-
-.bot_message {
-    background-color: dodgerblue;
-    padding: 10px;
-    color: white;
-    width: fit-content;
-    border-top-left-radius: 0px !important;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-.user_message {
-    margin-left: auto;
-    background-color: white;
-    color: black;
-    padding: 10px;
-    width: fit-content;
-    border-top-right-radius: 0px !important;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-.bot-profile {
-    width: 13%;
-    padding-right: 5px;
-}
-
-
-.user-profile {
-    width: 12%;
-    padding-left: 5px;
-}
-
-.bot-message-block {
-    display: flex;
-    align-items: baseline;
-}
-
-.user-message-block {
-    display: flex;
-    align-items: baseline;
-    flex-direction: row-reverse;
-} */
-
-.footer {
-    display: flex;
-}
-
-.footer input {
-    flex: 1;
-    height: 40px;
-    border: none;
-    border-radius: 0px 0px 0px 5px;
-    outline: none;
-    padding-left: 5px;
-    font-size: 16px;
-}
-
-.footer button {
-    width: 100px;
-    font-size: 18px;
-    border: none;
-    border-radius: 0px 0px 5px 0px;
-    outline: none;
-    background-color: dodgerblue;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.footer button:hover {
-    background-color: blue;
-}
-
-.footer button:disabled {
-    background-color: #aaaaaa;
-}
-
-.showBot:hover {
-    background-color: blue;
-}
-
-.hideBot {
-    padding: 10px;
-    font-size: 18px;
-    border: none;
-    outline: none;
-    background-color: dodgerblue;
-    color: white;
-    cursor: pointer;
-}
-
-
-.down-triangle {
-    width: 0;
-    height: 0;
-    position: absolute;
-    right: 68px;
-    bottom: 75px;
-    border: 20px solid transparent;
-    border-top: 20px solid dodgerblue;
-    border-bottom: 0;
-}
-
-  .showBot {
-  position: absolute;
-  right: 30px;
-  /*Rightandbottomaresettopositionthechatbotwindowintheright-cornerofthescreen*/
-  bottom: 25px;
-  padding: 10px 40px 10px 37px;
-  font-size: 18px;
-  border: none;
-  border-radius: var(--chatBot_windowCommonRadius);
-  outline: none;
-  background-color: dodgerblue;
-  color: #f8f8f8;
-  box-shadow: 10px 10px 5px #aaaaaa;
-  cursor: pointer;
-  -webkit-border-radius: var(--chatBot_windowCommonRadius);
-  -moz-border-radius: var(--chatBot_windowCommonRadius);
-  -ms-border-radius: var(--chatBot_windowCommonRadius);
-  -o-border-radius: var(--chatBot_windowCommonRadius);
-}
-
-.aapi-popup-dialog {
-  position: absolute;
-  right: 30px;
-  bottom: 95px;
-  font-size: 18px;
-  padding: 10px 10px 10px 10px;
-  border: none;
-  border-radius: var(--chatBot_windowCommonRadius);
-  outline: none;
-  background-color: dodgerblue;
-  color: #f8f8f8;
-}
-
-.attention {
-  position: absolute;
-  right: 25px;
-  bottom: 145px;
-  padding: 10px;
-  border-radius: 100%;
-  background-color: red;
-}
-
-.down-triangle {
-  width: 0;
-  height: 0;
-  position: absolute;
-  right: 68px;
-  bottom: 75px;
-  border: 20px solid transparent;
-  border-top: 20px solid dodgerblue;
-  border-bottom: 0;
-}
-
-.hidden {
-  display: none;
-} 
-
-
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" integrity="sha512-wnea99uKIC3TJF7v4eKk4Y+lMz2Mklv18+r4na2Gn1abDRPPOeef95xTzdwGD9e6zXJBteMIhZ1+68QC5byJZw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 
  <section class="text-gray-600 body-font mx-auto books">
   <!-- <div class="container px-5 py-5 mx-auto">
@@ -311,7 +139,7 @@
       {% endfor %}
     </div>
 
-      <div class = 'Chat-showBot' style="position:absolute;right:0">
+      <!-- <div class = 'Chat-showBot' style="position:absolute;right:0">
         <a href = "{%url 'book:chat'%}">
         <div class="popup-dialog fade-in-transition" href="{% url 'book:chat' %}" >
           <div class="aapi-popup-dialog">
@@ -321,12 +149,14 @@
         </div>
         <button id="showBotbtn" class="showBot fade-in-transition" type="button" onclick="">Chat</button>
       </a>
-      </div> 
+      </div>  -->
 
 
-  
+{% include 'pages/chat.html' %}
 </section>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
 
 {% endblock content %}

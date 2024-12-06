@@ -83,10 +83,10 @@
 </head>
 
 <body>
-  <div id="botWindow" class="container fade-in-transition hidden" style = "padding: 1em 0 0 0;">
+  <div id="botWindow" class="container fade-in-transition hidden">
     <div class="header">
-      <div class="header">
-        <h1>AI ChatBot</h1>
+      <div class="header-box">
+        <div class="header-title">AI ChatBot</div>
         <img src='{% static "img/bot.png" %}'>
       </div>
       <button class="hideBot fade-out-transition" type="button" onclick="hideBotFun()">X</button>
@@ -107,6 +107,9 @@
     <form id="myForm" value="query">
       <div class="footer">
         <input id="query" type="text" onkeyup="checkText()" placeholder="Type..." name="query">
+        <div id="recordButton" class="record-btn idle" onclick="toggleRecording()">
+          <i class="fa fa-microphone"></i>
+        </div>
         <button class="submit_btn" type="submit"> Send</button>
       </div>
     </form>
@@ -322,7 +325,12 @@
         })
     })
 
+
+    
+
   </script>
+
+
 </body>
 
 </html>
