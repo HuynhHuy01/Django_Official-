@@ -1,0 +1,43 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-04 21:07+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\User\templates\includes\sidebar.html:5
+#: .\User\templates\pages\test.html:127
+msgid "Book Store"
+msgstr "Trạm Đọc"
+
+#: .\User\templates\includes\sidebar.html:8
+msgid "Home"
+msgstr "Trang Chủ"
+
+#: .\User\templates\pages\test.html:7
+#, fuzzy
+#| msgid "Nut Toggle"
+msgid "Language Toggle"
+msgstr "Nut"
+
+#: .\User\views.py:568
+msgid "Hello"
+msgstr "Chao"
+
+#~ msgid "Welcome to Cinema!"
+#~ msgstr "Chap"
+
+#~ msgid "Check out the latest movies and book your tickets now."
+#~ msgstr "Thanh toans"

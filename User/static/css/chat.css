@@ -66,11 +66,16 @@ body {
     flex-wrap: nowrap;
     justify-content: space-between;
 }
-
-.header h1 {
-    color: white;
-    padding: 15px;
+.header-box{
+    display: flex;
 }
+.header-box .header-title {
+    color: #f8f8f8;
+    font-size: 2em; /* Typical font size of an h1 */
+    font-weight: bold; /* Matches the bold text of an h1 */
+    margin: 0.67em 0; /* Default margin for h1 */
+    line-height: 1.2; /* Default line height for h1 */
+  }
 
 .header img {
     width: 70px;
@@ -213,8 +218,8 @@ body {
 
 .attention {
     position: absolute;
-    right: 25px;
-    bottom: 145px;
+    right: 2em;
+    bottom: 10em;
     padding: 10px;
     border-radius: 100%;
     background-color: red;
@@ -233,4 +238,45 @@ body {
 
 .hidden {
     display: none;
+}
+
+
+
+
+
+/* Record Button Styling */
+.record-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    /* height: 50px; */
+    border-radius: 50%;
+    background-color: #ff4500;
+    color: white;
+    cursor: pointer;
+    margin-left: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.record-btn:hover {
+    background-color: #ff6347;
+    transform: scale(1.1);
+}
+
+.record-btn.active {
+    background-color: #e74c3c; /* Active recording state */
+}
+
+.record-btn i {
+    font-size: 20px;
+}
+
+.record-btn.idle i {
+    content: "\f130"; /* FontAwesome microphone icon */
+}
+
+.record-btn.active i {
+    content: "\f028"; /* FontAwesome stop icon */
 }
